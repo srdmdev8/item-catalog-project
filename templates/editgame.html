@@ -1,0 +1,41 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='gamestyles.css') }}">
+</head>
+<body>
+
+<h1> Edit Game </h1>
+
+<form action="{{ url_for('editGame', console_id = console_id, game_id=i.id)}}" method = 'post'>
+  <dl>
+	  <dt>Name:</dt>
+	  	<dd><input type ='text' size='30' name='name' placeholder = '{{i.name }}'></dd>
+	  <dt>Description:</dt>
+		  <dd><textarea name = 'description' rows='5' cols='40' placeholder = '{{i.description }}'></textarea></dd>
+	  <dt>Price:</dt>
+		  <dd><input type = 'text' size = '8' name='price' placeholder = '{{i.price}}'></dd>
+	  <dt>Publisher:</dt>
+      <dd><input type = 'text' size = '8' name='publisher' placeholder = '{{i.publisher}}'></dd>
+  </dl>
+
+  <input type='submit' value='Edit'>
+
+  <a href = '{{url_for('consoleGames', console_id = console_id)}}'> Cancel </a>
+</form>
+
+<script>
+  window.onscroll = function() {myFunction()};
+
+  var header = document.getElementById("myHeader");
+  var sticky = header.offsetTop;
+
+  function myFunction() {
+    if (window.pageYOffset > sticky) {
+      header.classList.add("sticky");
+    } else {
+      header.classList.remove("sticky");
+    }
+  }
+</script>
+</body>
+</html>

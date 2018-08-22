@@ -1,0 +1,121 @@
+body {
+  background-color: lightgreen;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  }
+
+.header {
+  padding: 10px 16px;
+  background: #555;
+  color: #f1f1f1;
+  margin-bottom: 20px;
+}
+
+.content {
+  padding: 16px;
+  text-align: center;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 102px;
+}
+
+.login {
+  position: relative;
+  float: right;
+  margin-right: 40px;
+  padding: 5px;
+}
+
+.consoles,
+.newConsole,
+.gamesView {
+  border: 1px solid darkgrey;
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  box-shadow: 5px 10px black;
+  background-color: lightgrey;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+.addnew {
+  background-color: #a9014b;
+}
+
+.editLink,
+.deleteLink,
+.viewLink,
+.cancelLink,
+.addNew {
+  font-size: 14px;
+  padding: 8px 14px 9px;
+  text-decoration: none;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #999;
+  -webkit-box-shadow: 0 1px 3px #999;
+  display: inline-block;
+  color: white;
+  text-shadow: 0 -1px 1px #222;
+  border-bottom: 1px solid #222;
+  margin-bottom: 10px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.viewLink{
+  background-color: #2daebf;
+}
+
+.deleteLink,
+.cancelLink {
+  background-color: red;
+
+}
+
+.editLink{
+  background-color: #ffb515;
+}
+
+.newCancelLink {
+  width: 250px;
+  margin: 20px 5px 5px 0;
+
+}
+
+.addBtn {
+  background-color: #a9014b;
+  color: white;
+  font-size: 14px;
+  padding: 10px;
+  text-decoration: none;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #999;
+  -webkit-box-shadow: 0 1px 3px #999;
+  display: inline-block;
+  color: white;
+  text-shadow: 0 -1px 1px #222;
+  border-bottom: 1px solid #222;
+  margin: 20px 5px 5px 0;
+  font-weight: bold;
+  line-height: 1;
+  width: 280px;
+  cursor: pointer;
+}
+
+.addText {
+  padding: 10px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

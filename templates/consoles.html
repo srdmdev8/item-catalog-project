@@ -1,0 +1,51 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='gamestyles.css') }}">
+</head>
+<body>
+<div class="header" id="myHeader">
+  <h1>Shawn's Console and Game Catalog <button class="login">Log In</button></h1>
+</div>
+<div class="content">
+  <a class="addNew" href = '{{url_for('newConsole')}}' > Add a New Console Here </a>
+</br></br>
+  <div class = 'flash'>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li> <strong> {{ message }} </strong> </li>
+      {% endfor %}
+      </ul>
+      {% endif %}
+    {% endwith %}
+  </div>
+  {% for i in console %}
+  <div class = 'consoles'>
+    <h3>{{i.name}}</h3>
+    <a class="viewLink" href = '{{url_for('consoleGames', console_id = i.id) }}' >View Games</a>
+    </br>
+    <a class="editLink" href = '{{url_for('editConsole', console_id = i.id) }}' >Edit</a>
+    </br>
+    <a class="deleteLink" href = '{{url_for('deleteConsole', console_id = i.id) }}'>Delete</a>
+    </br></br>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  window.onscroll = function() {myFunction()};
+
+  var header = document.getElementById("myHeader");
+  var sticky = header.offsetTop;
+
+  function myFunction() {
+    if (window.pageYOffset > sticky) {
+      header.classList.add("sticky");
+    } else {
+      header.classList.remove("sticky");
+    }
+  }
+</script>
+</body>
+</html>
