@@ -24,17 +24,19 @@
 		</div>
 		{%if 'username' not in session %}
 			<a class="login" href="{{url_for('showLogin')}}">Click Here to Login </a>
+      <a class="viewLink" href = '{{url_for('showConsoles') }}'>Back to Consoles</a>
+      <p class="loginReason">*In order to have access to all features, you must log in.</p>
 		{% else %}
 			<a class="login" href="{{url_for('disconnect')}}">Logout </a>
+      <a class="viewLink" href = '{{url_for('showConsoles') }}'>Back to Consoles</a>
 		{% endif %}
-		<a class="addNew" href = '{{url_for('newGame', console_id = console.id) }}'>Create New Game</a>
-		<a class="viewLink" href = '{{url_for('showConsoles') }}'>Back to Consoles</a>
-		<br /><br />
+
+    <br /><br />
 
 		{% for i in games %}
 		<div class="gamesView">
 		  <div class = 'nameAndPrice'>
-			  <span class = 'name'><p>{{i.name}}</span> |
+			  <span class = 'name'><p>{{i.name}}</span> -
 			  <span class = 'price'>{{i.price}}</span></p>
       </div>
 
@@ -45,15 +47,9 @@
 	    <div class = 'publisher'>
 	  	  <p>Published by: {{i.publisher}}</p>
 	  	</div>
-
-		  <div class = "editdeletepane">
-		    <a class="editLink" href='{{url_for('editGame',console_id = console.id, game_id=i.id)}}' >Edit</a>
-		    <a class="deleteLink" href='{{url_for('deleteGame', console_id = console.id, game_id=i.id)}}' >
-		    Delete</a>
-				<br /><br />
-		  </div>
 		</div>
 		{% endfor %}
+
 	</div>
 </div>
 

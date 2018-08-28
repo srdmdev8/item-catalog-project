@@ -3,25 +3,24 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='gamestyles.css') }}">
 </head>
 <body>
+<div class="header" id="myHeader">
+  <h1>Shawn's Console and Game Catalog</h1>
+</div>
+<div class="content gameMods">
+	<h1> Edit Game </h1>
 
-<h1> Edit Game </h1>
+	<form action="{{ url_for('editGame', console_id = console_id, game_id=i.id)}}" method = 'post'>
+		  <p>Name: <input type ='text' size='30' name='name' placeholder = '{{i.name }}'></p>
+			<p class="editDescription">Description: <textarea class="editDescription" name = 'description' rows='5' cols='40' placeholder = '{{i.description }}'></textarea></p>
+			<p>Price: <input type = 'text' size = '8' name='price' placeholder = '{{i.price}}'></p>
+			<p class="publisher">Publisher: <input type = 'text' size = '8' name='publisher' placeholder = '{{i.publisher}}'></p>
 
-<form action="{{ url_for('editGame', console_id = console_id, game_id=i.id)}}" method = 'post'>
-  <dl>
-	  <dt>Name:</dt>
-	  	<dd><input type ='text' size='30' name='name' placeholder = '{{i.name }}'></dd>
-	  <dt>Description:</dt>
-		  <dd><textarea name = 'description' rows='5' cols='40' placeholder = '{{i.description }}'></textarea></dd>
-	  <dt>Price:</dt>
-		  <dd><input type = 'text' size = '8' name='price' placeholder = '{{i.price}}'></dd>
-	  <dt>Publisher:</dt>
-      <dd><input type = 'text' size = '8' name='publisher' placeholder = '{{i.publisher}}'></dd>
-  </dl>
+	  <input class="editLink" type='submit' value='Edit'>
 
-  <input type='submit' value='Edit'>
+	  <a class="cancelLink" href = '{{url_for('consoleGames', console_id = console_id)}}'> Cancel </a>
+	</form>
+</div>
 
-  <a href = '{{url_for('consoleGames', console_id = console_id)}}'> Cancel </a>
-</form>
 
 <script>
   window.onscroll = function() {myFunction()};

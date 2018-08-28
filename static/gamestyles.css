@@ -1,14 +1,16 @@
 body {
-  background-color: lightgreen;
+  background-color: #63AB62;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Georgia, serif;
   }
 
 .header {
   padding: 10px 16px;
-  background: #555;
+  background: black;
   color: #f1f1f1;
-  margin-bottom: 20px;
+  font-family: Georgia, serif;
+  text-decoration: underline;
+  text-decoration-style: dashed;
 }
 
 .content {
@@ -26,35 +28,45 @@ body {
   padding-top: 102px;
 }
 
-.login {
-  position: relative;
-  float: right;
-  margin-right: 40px;
-  padding: 5px;
-}
-
 .consoles,
-.newConsole,
-.gamesView {
+.consoleMods,
+.gamesView,
+.gameMods {
   border: 1px solid darkgrey;
   width: 50%;
   margin: 0 auto;
   margin-bottom: 20px;
-  box-shadow: 5px 10px black;
-  background-color: lightgrey;
+  box-shadow: 10px 12px 10px black;
+  background-color: skyblue;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.consoles:hover,
+.consoleMods:hover,
+.gamesView:hover,
+.gameMods:hover {
+  background-color: lightblue;
+}
+
+.consoleMods,
+.gameMods {
+  margin-top: 30px;
 }
 
 .addnew {
   background-color: #a9014b;
+  margin: 5px;
 }
 
 .editLink,
 .deleteLink,
 .viewLink,
 .cancelLink,
-.addNew {
+.addNew,
+.login {
   font-size: 14px;
   padding: 8px 14px 9px;
   text-decoration: none;
@@ -69,26 +81,44 @@ body {
   margin-bottom: 10px;
   font-weight: bold;
   line-height: 1;
+  cursor: pointer;
+}
+
+.editLink:hover,
+.deleteLink:hover,
+.viewLink:hover,
+.cancelLink:hover,
+.addNew:hover,
+.login:hover,
+.addBtn:hover {
+  border: 2px solid black;
 }
 
 .viewLink{
   background-color: #2daebf;
+  margin: 5px;
 }
 
 .deleteLink,
 .cancelLink {
   background-color: red;
-
+  margin: 5px;
 }
 
 .editLink{
   background-color: #ffb515;
+  margin: 5px;
 }
 
 .newCancelLink {
   width: 250px;
   margin: 20px 5px 5px 0;
 
+}
+
+.login {
+  background-color: blue;
+  margin: 5px;
 }
 
 .addBtn {
@@ -118,4 +148,82 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.flash {
+	background-color: grey;
+	width:100%;
+	text-decoration: none;
+  color: white;
+  margin-top: -20px;
+  margin-bottom: 30px;
+}
+
+.flash li {
+	list-style-type: none;
+	text-align: center;
+  padding: 5px;
+}
+
+#signinButton,
+.center,
+#center {
+  text-align: center !important;
+  margin: 0 auto;
+}
+
+.loginContent,
+.loginStatus,
+#result {
+  margin: 0 auto;
+  text-align: center;
+}
+
+#loginText {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 70px;
+}
+
+.editDescription {
+  vertical-align: middle;
+}
+
+.name,
+.price {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nameAndPrice,
+.consoleName {
+  border-bottom: 3px solid white;
+}
+
+.consoleName {
+  padding-bottom: 10px;
+}
+
+.gameHead,
+.consoleHead {
+  text-decoration: underline;
+  text-decoration-color: white;
+  text-decoration-style: dashed;
+}
+
+.description {
+  font-style: italic;
+}
+
+.publisher {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.loginReason {
+  margin-top: 0px;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: bold;
 }
