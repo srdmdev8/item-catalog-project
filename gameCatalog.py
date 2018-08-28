@@ -332,9 +332,9 @@ def editConsole(console_id):
     if 'username' not in login_session:
         return redirect('/login')
     if editedConsole.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized \
-        to edit this Console. Please create your own console in order to \
-        edit.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() {alert('You are not authorized" \
+        "to edit this Console. Please create your own console in order to " \
+        "edit.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         if request.form['name']:
             editedConsole.name = request.form['name']
@@ -353,9 +353,9 @@ def deleteConsole(console_id):
     if 'username' not in login_session:
         return redirect('/login')
     if consoleToDelete.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized \
-        to delete this console. Please create your own console in order to \
-        delete.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() {alert('You are not authorized" \
+        "to delete this console. Please create your own console in order to " \
+        "delete.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(consoleToDelete)
         session.commit()
@@ -387,9 +387,9 @@ def newGame(console_id):
         return redirect('/login')
     console = session.query(Console).filter_by(id=console_id).one()
     if login_session['user_id'] != console.user_id:
-        return "<script>function myFunction() {alert('You are not authorized \
-        to add games to this console. Please create your own console in \
-        order to add games.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() {alert('You are not authorized" \
+        " to add games to this console. Please create your own console in " \
+        "order to add games.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         newGame = ConsoleGame(
             name=request.form['name'], console_id=console_id)
@@ -410,9 +410,9 @@ def editGame(console_id, game_id):
     editedGame = session.query(ConsoleGame).filter_by(id=game_id).one()
     console = session.query(Console).filter_by(id=console_id).one()
     if login_session['user_id'] != console.user_id:
-        return "<script>function myFunction() {alert('You are not authorized \
-        to edit games for this console. Please create your own console in \
-        order to edit games.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() {alert('You are not authorized" \
+        " to edit games for this console. Please create your own console in " \
+        "order to edit games.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         if request.form['name']:
             editedGame.name = request.form['name']
@@ -441,9 +441,9 @@ def deleteGame(console_id, game_id):
     console = session.query(Console).filter_by(id=console_id).one()
     gameToDelete = session.query(ConsoleGame).filter_by(id=game_id).one()
     if login_session['user_id'] != console.user_id:
-        return "<script>function myFunction() {alert('You are not authorized \
-        to delete games from this console. Please create your own console in \
-        order to delete games.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() {alert('You are not authorized" \
+        " to delete games from this console. Please create your own console " \
+        "in order to delete games.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(gameToDelete)
         session.commit()
