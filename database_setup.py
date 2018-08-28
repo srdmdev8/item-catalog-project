@@ -16,13 +16,14 @@ class User(Base):
 
 
 class Console(Base):
-    
-    __tablename__='console'
 
-    id = Column(Integer, primary_key = True)
-    name = Column(String(80), nullable = False)
+    __tablename__ = 'console'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(80), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    console_game = relationship('ConsoleGame', cascade='all, delete-orphan')
 
     @property
     def serialize(self):
@@ -34,11 +35,11 @@ class Console(Base):
 
 
 class ConsoleGame(Base):
-    
-    __tablename__='console_game'
 
-    name = Column(String(80), nullable = False)
-    id = Column(Integer, primary_key = True)
+    __tablename__ = 'console_game'
+
+    name = Column(String(80), nullable=False)
+    id = Column(Integer, primary_key=True)
     description = Column(String(500))
     price = Column(String(8))
     publisher = Column(String(80))
@@ -49,7 +50,7 @@ class ConsoleGame(Base):
 
     @property
     def serialize(self):
-        #Returns object data in easily serializable format
+        # Returns object data in easily serializable format
         return {
             'name': self.name,
             'description': self.description,
@@ -57,6 +58,7 @@ class ConsoleGame(Base):
             'price': self.price,
             'publisher': self.publisher,
         }
+
 
 engine = create_engine('sqlite:///consolegames.db')
 Base.metadata.create_all(engine)

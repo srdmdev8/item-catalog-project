@@ -10,7 +10,7 @@
     <h2>Add New Console</h2>
     <div class = 'pane'>
       <form action="{{ url_for('newConsole')}}" method = 'post'>
-        <input class="addText" type ='text' size='30' name='name' placeholder="New Console Name">
+        <input class="addText" type ='text' size='30' name='name' placeholder="New Console Name" required>
         </br>
         <input class="addBtn" type='submit' value='Add'>
       </br>

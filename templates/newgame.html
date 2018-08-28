@@ -10,7 +10,7 @@
 		<h1>Add New Game</h1>
 		<div class = 'pane'>
       <form action="{{ url_for('newGame', console_id = console_id)}}" method = 'post'>
-        <input class="addText" type ='text' size='30' name='name' placeholder="New Game Name">
+        <input class="addText" type ='text' size='30' name='name' placeholder="New Game Name" required>
         </br>
         <input class="addBtn" type='submit' value='Add'>
       </br>

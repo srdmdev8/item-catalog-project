@@ -104,7 +104,11 @@ def fbconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px;' \
+              'height: 300px;' \
+              'border-radius: 150px;' \
+              '-webkit-border-radius: 150px;' \
+              '-moz-border-radius: 150px;"> '
     output += '</div>'
 
     flash("You are now logged in as %s" % login_session['username'])
@@ -212,7 +216,11 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px;' \
+              'height: 300px;' \
+              'border-radius: 150px;' \
+              '-webkit-border-radius: 150px;' \
+              '-moz-border-radius: 150px;"> '
     output += '</div>'
     flash("You are now logged in as %s" % login_session['username'])
     print "done!"
@@ -235,11 +243,11 @@ def getUserInfo(user_id):
 
 
 def getUserID(email):
-    user = session.query(User).filter_by(email=email).one()
-    if not user.id:
-        return None
-    else:
+    try:
+        user = session.query(User).filter_by(email=email).one()
         return user.id
+    except:
+        return None
 
 
 # Disconnect from Google - Revoke a current user's token and reset their
@@ -305,6 +313,8 @@ def showConsoles():
 # Add new console
 @app.route('/consoles/new', methods=['GET', 'POST'])
 def newConsole():
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         newConsole = Console(name=request.form['name'])
         session.add(newConsole)
@@ -319,6 +329,12 @@ def newConsole():
 @app.route('/consoles/<int:console_id>/edit', methods=['GET', 'POST'])
 def editConsole(console_id):
     editedConsole = session.query(Console).filter_by(id=console_id).one()
+    if 'username' not in login_session:
+        return redirect('/login')
+    if editedConsole.user_id != login_session['user_id']:
+        return "<script>function myFunction() {alert('You are not authorized \
+        to edit this Console. Please create your own console in order to \
+        edit.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         if request.form['name']:
             editedConsole.name = request.form['name']
@@ -334,6 +350,12 @@ def editConsole(console_id):
 @app.route('/consoles/<int:console_id>/delete', methods=['GET', 'POST'])
 def deleteConsole(console_id):
     consoleToDelete = session.query(Console).filter_by(id=console_id).one()
+    if 'username' not in login_session:
+        return redirect('/login')
+    if consoleToDelete.user_id != login_session['user_id']:
+        return "<script>function myFunction() {alert('You are not authorized \
+        to delete this console. Please create your own console in order to \
+        delete.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(consoleToDelete)
         session.commit()
@@ -361,6 +383,13 @@ def consoleGames(console_id):
 # Add a new game
 @app.route('/consoles/<int:console_id>/games/new', methods=['GET', 'POST'])
 def newGame(console_id):
+    if 'username' not in login_session:
+        return redirect('/login')
+    console = session.query(Console).filter_by(id=console_id).one()
+    if login_session['user_id'] != console.user_id:
+        return "<script>function myFunction() {alert('You are not authorized \
+        to add games to this console. Please create your own console in \
+        order to add games.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         newGame = ConsoleGame(
             name=request.form['name'], console_id=console_id)
@@ -376,7 +405,14 @@ def newGame(console_id):
 @app.route('/consoles/<int:console_id>/games/<int:game_id>/edit',
            methods=['GET', 'POST'])
 def editGame(console_id, game_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     editedGame = session.query(ConsoleGame).filter_by(id=game_id).one()
+    console = session.query(Console).filter_by(id=console_id).one()
+    if login_session['user_id'] != console.user_id:
+        return "<script>function myFunction() {alert('You are not authorized \
+        to edit games for this console. Please create your own console in \
+        order to edit games.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         if request.form['name']:
             editedGame.name = request.form['name']
@@ -400,7 +436,14 @@ def editGame(console_id, game_id):
 @app.route('/consoles/<int:console_id>/games/<int:game_id>/delete',
            methods=['GET', 'POST'])
 def deleteGame(console_id, game_id):
+    if 'username' not in login_session:
+        return redirect('/login')
+    console = session.query(Console).filter_by(id=console_id).one()
     gameToDelete = session.query(ConsoleGame).filter_by(id=game_id).one()
+    if login_session['user_id'] != console.user_id:
+        return "<script>function myFunction() {alert('You are not authorized \
+        to delete games from this console. Please create your own console in \
+        order to delete games.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(gameToDelete)
         session.commit()

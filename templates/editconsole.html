@@ -10,7 +10,7 @@
 	<h1> Edit Console </h1>
 
 	<form action="{{ url_for('editConsole', console_id = i.id)}}" method = 'post'>
-	  <input type ='text' size='30' name='name' placeholder='{{i.name }}'>
+	  <input type ='text' size='30' name='name' placeholder='{{i.name }}' required>
 		<br /><br />
 	  <input class="editLink" type='submit' value='Edit'>
 	  <a class="cancelLink" href = '{{url_for('showConsoles')}}'> Cancel </a>

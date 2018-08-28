@@ -10,10 +10,10 @@
 	<h1> Edit Game </h1>
 
 	<form action="{{ url_for('editGame', console_id = console_id, game_id=i.id)}}" method = 'post'>
-		  <p>Name: <input type ='text' size='30' name='name' placeholder = '{{i.name }}'></p>
-			<p class="editDescription">Description: <textarea class="editDescription" name = 'description' rows='5' cols='40' placeholder = '{{i.description }}'></textarea></p>
-			<p>Price: <input type = 'text' size = '8' name='price' placeholder = '{{i.price}}'></p>
-			<p class="publisher">Publisher: <input type = 'text' size = '8' name='publisher' placeholder = '{{i.publisher}}'></p>
+		  <p>Name: <input type ='text' size='30' name='name' placeholder = '{{i.name }}' required></p>
+			<p class="editDescription">Description: <textarea class="editDescription" name = 'description' rows='5' cols='40' placeholder = '{{i.description }}' required></textarea></p>
+			<p>Price: <input type = 'text' size = '8' name='price' placeholder = '{{i.price}}' required></p>
+			<p class="publisher">Publisher: <input type = 'text' size = '8' name='publisher' placeholder = '{{i.publisher}}' required></p>
 
 	  <input class="editLink" type='submit' value='Edit'>
 
