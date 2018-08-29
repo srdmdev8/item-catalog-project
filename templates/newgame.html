@@ -10,11 +10,14 @@
 		<h1>Add New Game</h1>
 		<div class = 'pane'>
       <form action="{{ url_for('newGame', console_id = console_id)}}" method = 'post'>
-        <input class="addText" type ='text' size='30' name='name' placeholder="New Game Name" required>
+				<p>Name: <input type ='text' size='30' name='name' placeholder = 'New Game Name' required></p>
+				<p class="editDescription">Description: <textarea class="editDescription" name = 'description' rows='5' cols='40' placeholder = 'Enter Description Here' required></textarea></p>
+				<p>Price: <input type = 'text' size = '8' name='price' placeholder = '$0.00' required></p>
+				<p>Publisher: <input type = 'text' size = '10' name='publisher' placeholder = 'Game Publisher' required></p>
         </br>
-        <input class="addBtn" type='submit' value='Add'>
-      </br>
-        <a class="cancelLink newCancelLink" href = '{{url_for('consoleGames', console_id = console_id)}}'> Cancel </a>
+				<input class="addNew" type='submit' value='Add'>
+
+			  <a class="cancelLink" href = '{{url_for('consoleGames', console_id = console_id)}}'> Cancel </a>
       </form>
     </div>
   </div>

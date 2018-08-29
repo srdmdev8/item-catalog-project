@@ -278,6 +278,9 @@ def gdisconnect():
 # Console Games JSON
 @app.route('/consoles/<int:console_id>/games/JSON')
 def consoleGamesJSON(console_id):
+    '''
+    Render JSON of all games for specified console.
+    '''
     console = session.query(Console).filter_by(id=console_id).one()
     games = session.query(ConsoleGame).filter_by(
         console_id=console_id).all()
@@ -287,6 +290,9 @@ def consoleGamesJSON(console_id):
 # Game JSON
 @app.route('/consoles/<int:console_id>/games/<int:game_id>/JSON')
 def gameJSON(console_id, game_id):
+    '''
+    Render JSON of specific game.
+    '''
     game = session.query(ConsoleGame).filter_by(id=game_id).one()
     return jsonify(ConsoleGame=game.serialize)
 
@@ -294,6 +300,9 @@ def gameJSON(console_id, game_id):
 # Consoles JSON
 @app.route('/consoles/JSON')
 def consolesJSON():
+    '''
+    Render JSON of all consoles.
+    '''
     consoles = session.query(Console).all()
     return jsonify(consoles=[console.serialize for console in consoles])
 
@@ -303,6 +312,11 @@ def consolesJSON():
 @app.route('/consoles/')
 @app.route('/consoles')
 def showConsoles():
+    '''
+    Query all consoles and list them on HTML template in ascending order based
+    on console name. Also, verify the user's login status to determine which
+    version of the console page they see.
+    '''
     console = session.query(Console).order_by(asc(Console.name))
     if 'username' not in login_session:
         return render_template('publicconsoles.html', console=console)
@@ -313,28 +327,53 @@ def showConsoles():
 # Add new console
 @app.route('/consoles/new', methods=['GET', 'POST'])
 def newConsole():
+    '''
+    First verify login status and redirect to login page as needed.
+    '''
     if 'username' not in login_session:
         return redirect('/login')
+    '''
+    If the user adds a new console via the POST method, get the value of the
+    new name, initialize the creator, add/commit the new console to the
+    database and provide a flash message on the redirect screen.
+    '''
     if request.method == 'POST':
-        newConsole = Console(name=request.form['name'])
+        newConsole = Console(name=request.form['name'],
+                             user_id=login_session['user_id'])
         session.add(newConsole)
         session.commit()
         flash("New Console Created!")
         return redirect(url_for('showConsoles'))
     else:
+        '''
+        Render the template for adding a new console.
+        '''
         return render_template('newconsole.html')
 
 
 # Edit console
 @app.route('/consoles/<int:console_id>/edit', methods=['GET', 'POST'])
 def editConsole(console_id):
+    '''
+    Set the console that is being edited and then verify the login status of
+    the user and redirect to login page as needed.
+    '''
     editedConsole = session.query(Console).filter_by(id=console_id).one()
     if 'username' not in login_session:
         return redirect('/login')
+    '''
+    If the console being edited was not created by the user, display message
+    that they are not authroized to perform this action.
+    '''
     if editedConsole.user_id != login_session['user_id']:
         return "<script>function myFunction() {alert('You are not authorized" \
         "to edit this Console. Please create your own console in order to " \
         "edit.');}</script><body onload='myFunction()'>"
+    '''
+    If the user edits a console via the POST method, get the value of the
+    updated name, add/commit that name to the
+    database and provide a flash message on the redirect screen.
+    '''
     if request.method == 'POST':
         if request.form['name']:
             editedConsole.name = request.form['name']
@@ -343,25 +382,44 @@ def editConsole(console_id):
         flash("Console Successfully Edited!")
         return redirect(url_for('showConsoles'))
     else:
+        '''
+        Render the template for editing a console.
+        '''
         return render_template('editconsole.html', i=editedConsole)
 
 
 # Delete console
 @app.route('/consoles/<int:console_id>/delete', methods=['GET', 'POST'])
 def deleteConsole(console_id):
+    '''
+    Set the console that is being deleted and then verify the login status of
+    the user and redirect to login page as needed.
+    '''
     consoleToDelete = session.query(Console).filter_by(id=console_id).one()
     if 'username' not in login_session:
         return redirect('/login')
+    '''
+    If the console being deleted was not created by the user, display message
+    that they are not authroized to perform this action.
+    '''
     if consoleToDelete.user_id != login_session['user_id']:
         return "<script>function myFunction() {alert('You are not authorized" \
         "to delete this console. Please create your own console in order to " \
         "delete.');}</script><body onload='myFunction()'>"
+    '''
+    If the user deletes a console via the POST method, delete the specific
+    console and commit to the database. Then provide a flash message on the
+    redirect screen.
+    '''
     if request.method == 'POST':
         session.delete(consoleToDelete)
         session.commit()
         flash("Console Successfully Deleted!")
         return redirect(url_for('showConsoles'))
     else:
+        '''
+        Render the template for deleting a console.
+        '''
         return render_template('deleteconsole.html', i=consoleToDelete)
 
 
@@ -371,6 +429,11 @@ def deleteConsole(console_id):
 @app.route('/consoles/<int:console_id>/games')
 @app.route('/consoles/<int:console_id>/games/')
 def consoleGames(console_id):
+    '''
+    Query console by id and query for all games listed for that console to
+    display on HTML template. Then, verify the user's login status to determine
+    which version of the console page they see.
+    '''
     console = session.query(Console).filter_by(id=console_id).one()
     games = session.query(ConsoleGame).filter_by(console_id=console.id)
     if 'username' not in login_session:
@@ -383,21 +446,38 @@ def consoleGames(console_id):
 # Add a new game
 @app.route('/consoles/<int:console_id>/games/new', methods=['GET', 'POST'])
 def newGame(console_id):
+    '''
+    First verify login status and redirect to login page as needed.
+    '''
     if 'username' not in login_session:
         return redirect('/login')
+    '''
+    If the console being deleted was not created by the user, display message
+    that they are not authroized to perform this action.
+    '''
     console = session.query(Console).filter_by(id=console_id).one()
     if login_session['user_id'] != console.user_id:
         return "<script>function myFunction() {alert('You are not authorized" \
         " to add games to this console. Please create your own console in " \
         "order to add games.');}</script><body onload='myFunction()'>"
+    '''
+    If the user adds a new console via the POST method, get the value of the
+    inputs, add/commit the new game to the
+    database and provide a flash message on the redirect screen.
+    '''
     if request.method == 'POST':
         newGame = ConsoleGame(
-            name=request.form['name'], console_id=console_id)
+            name=request.form['name'], description=request.form['description'],
+            price=request.form['price'], publisher=request.form['publisher'],
+            console_id=console_id, user_id=console.user_id)
         session.add(newGame)
         session.commit()
         flash("New Game Created!")
         return redirect(url_for('consoleGames', console_id=console_id))
     else:
+        '''
+        Render the template for adding a new game.
+        '''
         return render_template('newgame.html', console_id=console_id)
 
 
@@ -405,14 +485,27 @@ def newGame(console_id):
 @app.route('/consoles/<int:console_id>/games/<int:game_id>/edit',
            methods=['GET', 'POST'])
 def editGame(console_id, game_id):
+    '''
+    Verify the login status of the user and redirect to login page as needed.
+    Then, set the game that is being edited and the console the game is for.
+    '''
     if 'username' not in login_session:
         return redirect('/login')
     editedGame = session.query(ConsoleGame).filter_by(id=game_id).one()
     console = session.query(Console).filter_by(id=console_id).one()
+    '''
+    If the console of the game being edited was not created by the user,
+    display message that they are not authroized to perform this action.
+    '''
     if login_session['user_id'] != console.user_id:
         return "<script>function myFunction() {alert('You are not authorized" \
         " to edit games for this console. Please create your own console in " \
         "order to edit games.');}</script><body onload='myFunction()'>"
+    '''
+    If the user edits a game via the POST method, get the value of the
+    inputs, add/commit the updates to the database and provide a flash message
+    on the redirect screen.
+    '''
     if request.method == 'POST':
         if request.form['name']:
             editedGame.name = request.form['name']
@@ -427,6 +520,9 @@ def editGame(console_id, game_id):
         flash("Game Successfully Edited!")
         return redirect(url_for('consoleGames', console_id=console_id))
     else:
+        '''
+        Render the template for editing a game.
+        '''
         return render_template(
             'editgame.html', console_id=console_id, game_id=game_id,
             i=editedGame)
@@ -436,20 +532,36 @@ def editGame(console_id, game_id):
 @app.route('/consoles/<int:console_id>/games/<int:game_id>/delete',
            methods=['GET', 'POST'])
 def deleteGame(console_id, game_id):
+    '''
+    Verify the login status of the user and redirect to login page as needed.
+    Then, set the game that is being deleted and the console the game is for.
+    '''
     if 'username' not in login_session:
         return redirect('/login')
     console = session.query(Console).filter_by(id=console_id).one()
     gameToDelete = session.query(ConsoleGame).filter_by(id=game_id).one()
+    '''
+    If the console of the game being deleted was not created by the user,
+    display message that they are not authroized to perform this action.
+    '''
     if login_session['user_id'] != console.user_id:
         return "<script>function myFunction() {alert('You are not authorized" \
         " to delete games from this console. Please create your own console " \
         "in order to delete games.');}</script><body onload='myFunction()'>"
+    '''
+    If the user deletes a game via the POST method, delete the specific
+    game and commit to the database. Then provide a flash message on the
+    redirect screen.
+    '''
     if request.method == 'POST':
         session.delete(gameToDelete)
         session.commit()
         flash("Game Successfully Deleted!")
         return redirect(url_for('consoleGames', console_id=console_id))
     else:
+        '''
+        Render the template for deleting a game.
+        '''
         return render_template(
             'deletegame.html', i=gameToDelete)
 
@@ -457,6 +569,10 @@ def deleteGame(console_id, game_id):
 # Disconnect based on provider
 @app.route('/disconnect')
 def disconnect():
+    '''
+    If provider exists, determine whether google or facebook. Then disconnect
+    accordingly and redirect user to the console page.
+    '''
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
             gdisconnect()
@@ -473,6 +589,9 @@ def disconnect():
         flash("You have successfully been logged out.")
         return redirect(url_for('showConsoles'))
     else:
+        '''
+        Render the template for the consoles page and display a flash message.
+        '''
         flash("You were not logged in")
         return redirect(url_for('showConsoles'))
 
